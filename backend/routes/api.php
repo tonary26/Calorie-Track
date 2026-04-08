@@ -17,11 +17,11 @@ Route::prefix('/v1')->middleware('throttle:api')->group(function () {
        require __DIR__ . '/api/activityLevels.php';
     });
 
-    Route::prefix('/products')->group(function () {
+    Route::prefix('/products')->middleware('auth:sanctum')->group(function () {
         require __DIR__ . '/api/products.php';
     });
 
-    Route::prefix('/meals')->group(function () {
+    Route::prefix('/meals')->middleware('auth:sanctum')->group(function () {
         require __DIR__ . '/api/meals.php';
 
         require __DIR__ . '/api/mealsItem.php';

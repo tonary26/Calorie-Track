@@ -23,7 +23,6 @@ class MealItemStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'meal_id' => ['required', 'integer'],
             'product_id' => ['required', 'integer'],
             'weight_gram' => ['required', 'integer'],
         ];

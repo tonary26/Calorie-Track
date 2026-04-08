@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                   ->constrained('users')
                   ->cascadeOnDelete();
-            $table->enum('type', ['breakfast', 'lunch', 'dinner']);
+            $table->string('type');
             $table->timestamps();
         });
     }

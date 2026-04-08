@@ -12,9 +12,22 @@ class MealItemController extends Controller
 {
     public function store(Meal $meal, MealItemStoreRequest $request)
     {
-        $meal->products()->attach($request->product_id, [
-            'weight_gram' => $request->weight_gram
-        ]);
+        $existProduct = $meal->products()
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if ($existProduct) {
+            $newWeight = $existProduct->pivot->weight_gram + $request->weight_gram;
+
+            $meal->products()->updateExistingPivot($request->product_id, [
+                'weight_gram' => $newWeight
+            ]);
+        }
+        else {
+            $meal->products()->attach($request->product_id, [
+                'weight_gram' => $request->weight_gram
+            ]);
+        }
 
         return response()->json([
             'message' => 'Successful created.'

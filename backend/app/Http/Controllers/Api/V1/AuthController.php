@@ -15,6 +15,12 @@ class AuthController extends Controller
         $data = $request->validated();
         $user = User::create($data);
 
+        $user->meals()->createMany([
+            ['type' => '🌅 Breakfast'],
+            ['type' => '☀️ Lunch'],
+            ['type' => '🌙 Dinner'],
+        ]);
+
         return response()->json([
             'user' => $user
         ], 201);

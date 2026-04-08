@@ -51,7 +51,10 @@ onMounted(async () => {
             <span class="macro-label">carbs</span>
           </div>
         </div>
-        <button class="product-add">+ Add</button>
+        <router-link :to="{ name: 'products.show', params: { id: product.id } }"
+            class="product-add">
+          + Add
+        </router-link>
       </div>
 
     </div>
@@ -199,6 +202,7 @@ onMounted(async () => {
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
   transition: background 0.2s, transform 0.1s;
 }
 

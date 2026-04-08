@@ -21,7 +21,10 @@ class MealController extends Controller
     public function store(MealStoreRequest $request)
     {
         $data = $request->validated();
-        $meal = Meal::create($data);
+        $meal = Meal::create([
+            ...$data,
+            'user_id' => auth()->id()
+        ]);
 
         return response()->json([
             'meal' => $meal
@@ -31,7 +34,7 @@ class MealController extends Controller
     public function show(Meal $meal)
     {
         return response()->json([
-            'meal' => $meal
+            'meal' => $meal->load('products')
         ]);
     }
 

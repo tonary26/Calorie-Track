@@ -18,7 +18,7 @@ class Meal extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)
+        return $this->belongsToMany(Product::class, 'meal_items')
                     ->withPivot('weight_gram')
                     ->withTimestamps();
     }

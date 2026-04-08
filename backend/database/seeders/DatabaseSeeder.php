@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Requests\Meal\MealStoreRequest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
