@@ -6,12 +6,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Meal;
 use App\Http\Requests\Meal\MealStoreRequest;
+use Carbon\Carbon;
 
 class MealController extends Controller
 {
     public function index()
     {
-        $meals = Meal::with('products')->where('user_id', auth()->id())->get();
+        $user = auth()->id();
+        $today = Carbon::today();
+
+        $types = ['🌅 Breakfast', '☀️ Lunch', '🌙 Dinner'];
+
+        foreach ($types as $type) {
+            $exist = Meal::where('user_id', $user)
+                ->where('type', $type)
+                ->whereDate('created_at', $today)
+                ->exists();
+
+            if (!$exist) {
+                Meal::create([
+                    'type' => $type,
+                    'user_id' => $user,
+                    'created_at' => $today
+                ]);
+            }
+        }
+
+        $meals = Meal::with('products')
+            ->where('user_id', auth()->id())
+            ->whereDate('created_at', $today)
+            ->get();
 
         return response()->json([
             'meals' => $meals

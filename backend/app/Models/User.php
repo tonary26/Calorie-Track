@@ -29,6 +29,7 @@ class User extends Authenticatable
         'activity_level_id',
         'email',
         'password',
+        'created_at'
     ];
 
     /**

@@ -103,6 +103,101 @@ const deleteProductInMeal = async function (meal_id, product_id) {
   await mealStore.deleteProductInMeal(meal_id, product_id)
 }
 
+const circleOffset = computed(() => {
+  const goal = authStore.user.daily_calories
+  const eaten = getTotalCalories.value
+
+  const percentage = Math.min(eaten / goal, 1)
+
+  return 326.7 * (1 - percentage)
+})
+
+const progressColor = computed(() => {
+  const percentage = getTotalCalories.value / authStore.user.daily_calories
+
+  if (percentage > 1) {
+    return '#e74c3c'
+  }
+
+  if (percentage > 0.8) {
+    return '#f1c40f'
+  }
+
+  return '#2e9e5b';
+})
+
+const proteinsOffset = computed(() => {
+  const goal = authStore.user.daily_macros.proteins
+  const eaten = getTotalProteins.value
+
+  if (!goal) {
+    return '0%'
+  }
+
+  const percentage = (goal * eaten) * 100
+
+  return Math.min(percentage, 100) + '%'
+})
+
+const proteinsProgressColor = computed(() => {
+  const percentage = getTotalProteins.value > authStore.user.daily_macros.proteins
+
+  if (percentage) {
+    return '#e74c3c'
+  }
+  else {
+    return '#2e9e5b'
+  }
+})
+
+const fatsOffset = computed(() => {
+  const goal = authStore.user.daily_macros.fats
+  const eaten = getTotalFats.value
+
+  if (!goal) {
+    return '0%'
+  }
+
+  const percentage = (goal * eaten) * 100
+
+  return Math.min(percentage, 100) + '%'
+})
+
+const fatsProgressColor = computed(() => {
+  const percentage = getTotalFats.value > authStore.user.daily_macros.fats
+
+  if (percentage) {
+    return '#e74c3c'
+  }
+  else {
+    return '#D4A017FF'
+  }
+})
+
+const carbsOffset = computed(() => {
+  const goal = authStore.user.daily_macros.carbs
+  const eaten = getTotalCarbs.value
+
+  if (!goal) {
+    return '0%'
+  }
+
+  const percentage = (goal * eaten) * 100
+
+  return Math.min(percentage, 100) + '%'
+})
+
+const carbsProgressColor = computed(() => {
+  const percentage = getTotalCarbs.value > authStore.user.daily_macros.carbs
+
+  if (percentage) {
+    return '#e74c3c'
+  }
+  else {
+    return '#2e9e5b'
+  }
+})
+
 onMounted(async () => {
   await mealStore.getMeals()
 })
@@ -125,8 +220,9 @@ onMounted(async () => {
         <div class="calories-circle">
           <svg viewBox="0 0 120 120">
             <circle cx="60" cy="60" r="52" fill="none" stroke="#d6eed9" stroke-width="10"/>
-            <circle cx="60" cy="60" r="52" fill="none" stroke="#2e9e5b" stroke-width="10"
-                    stroke-dasharray="326.7" stroke-dashoffset="13"
+            <circle cx="60" cy="60" r="52" fill="none" :stroke="progressColor" stroke-width="10"
+                    stroke-dasharray="326.7"
+                    :stroke-dashoffset="circleOffset"
                     stroke-linecap="round" transform="rotate(-90 60 60)"/>
           </svg>
           <div class="calories-inner">
@@ -166,7 +262,10 @@ onMounted(async () => {
             </div>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill proteins-fill" style="width: 80%"></div>
+            <div class="progress-fill proteins-fill" :style="{
+              width: proteinsOffset,
+              backgroundColor: proteinsProgressColor
+            }"></div>
           </div>
         </div>
 
@@ -179,7 +278,10 @@ onMounted(async () => {
             </div>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill fats-fill" style="width: 75%"></div>
+            <div class="progress-fill fats-fill" :style="{
+              width: fatsOffset,
+              backgroundColor: fatsProgressColor
+            }"></div>
           </div>
         </div>
 
@@ -192,7 +294,10 @@ onMounted(async () => {
             </div>
           </div>
           <div class="progress-bar">
-            <div class="progress-fill carbs-fill" style="width: 85%"></div>
+            <div class="progress-fill carbs-fill" :style="{
+              width: carbsOffset,
+              backgroundColor: carbsProgressColor
+            }"></div>
           </div>
         </div>
       </div>
@@ -336,6 +441,14 @@ onMounted(async () => {
   .calories-circle svg {
     width: 100%;
     height: 100%;
+  }
+
+  circle {
+    transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;
+  }
+
+  .progress-fill {
+    transition: width 0.5s ease, background-color 0.5s ease;
   }
 
   .calories-inner {
