@@ -43,11 +43,6 @@ const logout = async function () {
             :to="{ name: 'nutrition.index' }">
           Nutrition
         </router-link>
-
-        <a class="nav-text"
-           href="#">
-          Calorie Track
-        </a>
       </div>
 
       <div class="right">
@@ -114,6 +109,7 @@ const logout = async function () {
   color: white;
   font-size: 19px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .main-wrapper {
