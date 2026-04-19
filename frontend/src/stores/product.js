@@ -11,12 +11,14 @@ export const useProductStore = defineStore('product', {
     },
 
     actions: {
-        async getProducts () {
+        async getProducts(search = '') {
             try {
-                const serverData = await api.get('products')
+                const serverData = await api.get('products', {
+                    params: { search }
+                })
                 const data = serverData.data
 
-                this.products = data.products
+                this.products = data.products.data
 
                 return data
             }
@@ -25,7 +27,7 @@ export const useProductStore = defineStore('product', {
             }
         },
 
-        async showProduct (id) {
+        async showProduct(id) {
             try {
                 const serverData = await api.get(`products/${id}`)
                 const data = serverData.data

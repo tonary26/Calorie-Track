@@ -38,7 +38,17 @@ const router = createRouter({
             path: '/products/:id',
             component: () => import('@/pages/products/show.vue'),
             name: 'products.show'
-        }
+        },
+        {
+            path: '/admin',
+            component: () => import('@/pages/admin/dashboard.vue'),
+            name: 'admin.dashboard'
+        },
+        {
+            path: '/admin/users',
+            component: () => import('@/pages/admin/users.vue'),
+            name: 'admin.users'
+        },
     ]
 })
 

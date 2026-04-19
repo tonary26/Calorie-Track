@@ -9,10 +9,17 @@ use App\Http\Requests\Product\ProductStoreRequest;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query('search');
+
+        $products = Product::query()->when($search, function ($query, $search) {
+            return $query->where('name', 'LIKE', "%{$search}%");
+        })->orderBy('name')
+          ->paginate(20);
+
         return response()->json([
-            'products' => Product::all()
+            'products' => $products
         ]);
     }
 

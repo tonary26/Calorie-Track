@@ -1,12 +1,23 @@
 <script setup>
 import { useProductStore } from "@/stores/product.js"
-import { onMounted } from "vue"
+import { onMounted, ref, watch } from "vue"
 
 defineOptions({
   name: 'index'
 })
 
 const store = useProductStore()
+
+const search = ref('')
+let timeOut = null
+
+watch(search, (newValue) => {
+  clearTimeout(timeOut)
+
+  timeOut = setTimeout(async () => {
+    await store.getProducts(newValue)
+  }, 500)
+})
 
 onMounted(async () => {
   await store.getProducts()
@@ -21,7 +32,7 @@ onMounted(async () => {
       <h1 class="catalog-title">Products</h1>
       <div class="catalog-search">
         <span class="search-icon">🔍</span>
-        <input class="search-input" type="text" placeholder="Search products...">
+        <input v-model="search" class="search-input" type="text" placeholder="Search products...">
       </div>
     </div>
 

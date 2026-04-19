@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import api from "@/api.js"
+import router from "@/router/router.js";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -14,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        async register (formData) {
+        async register(formData) {
             try {
                 const serverData = await api.post('auth/register', formData)
                 const data = serverData.data
@@ -28,7 +29,7 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
-        async getActivityLevels () {
+        async getActivityLevels() {
             try {
                 const serverData = await api.get('activityLevels')
                 const data = serverData.data
@@ -37,12 +38,12 @@ export const useAuthStore = defineStore('auth', {
 
                 return data
             }
-            catch(error) {
+            catch (error) {
                 console.log(error.message)
             }
         },
 
-        async login (formData) {
+        async login(formData) {
             try {
                 const serverData = await api.post('auth/login', formData)
                 const data = serverData.data
@@ -60,7 +61,7 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
-        async logout () {
+        async logout() {
             try {
                 await api.post('auth/logout')
                 alert('You have successfully logged out of your account.')
@@ -76,6 +77,10 @@ export const useAuthStore = defineStore('auth', {
                 this.token = null
 
                 delete api.defaults.headers.common['Authorization']
+
+                router.push({
+                    name: 'auth.login.index'
+                })
             }
         }
     },

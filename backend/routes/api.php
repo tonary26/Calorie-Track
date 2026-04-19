@@ -26,4 +26,8 @@ Route::prefix('/v1')->middleware('throttle:api')->group(function () {
 
         require __DIR__ . '/api/mealsItem.php';
     });
+
+    Route::prefix('/users')->group(function () {
+        require __DIR__ . '/api/users.php';
+    });
 });

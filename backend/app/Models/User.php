@@ -26,6 +26,7 @@ class User extends Authenticatable
         'height',
         'age',
         'sex',
+        'role',
         'activity_level_id',
         'email',
         'password',

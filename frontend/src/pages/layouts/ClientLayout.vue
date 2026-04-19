@@ -8,14 +8,8 @@ defineOptions({
 
 const store = useAuthStore()
 
-const router = useRouter()
-
 const logout = async function () {
   await store.logout()
-
-  router.push({
-    name: 'dashboard.index'
-  })
 }
 </script>
 
@@ -25,44 +19,55 @@ const logout = async function () {
 
       <div class="left">
         <router-link
-            :to="{ name: 'dashboard.index' }"
-            class="nav-text">
+            class="nav-text"
+            :to="{ name: 'dashboard.index' }">
           Calorie Track
         </router-link>
       </div>
 
-      <div class="center">
+      <div class="center" v-if="store.isAuthenticated">
         <router-link
             class="nav-text"
+            active-class="active"
             :to="{ name: 'products.index' }">
           Products
         </router-link>
 
         <router-link
             class="nav-text"
+            active-class="active"
             :to="{ name: 'nutrition.index' }">
           Nutrition
         </router-link>
       </div>
 
       <div class="right">
+        <template v-if="store.isAuthenticated">
           <a
               @click="logout()"
-              v-if="store.isAuthenticated"
               class="nav-text">
             Logout
           </a>
 
+          <router-link
+              class="nav-text"
+              :to="{ name: 'admin.dashboard' }">
+            Admin
+          </router-link>
+        </template>
+
         <template v-else>
           <router-link
-              :to="{ name: 'auth.register.index' }"
-              class="nav-text">
+              class="nav-text"
+              active-class="active"
+              :to="{ name: 'auth.register.index' }">
             Register
           </router-link>
 
           <router-link
-              :to="{ name: 'auth.login.index' }"
-              class="nav-text">
+              class="nav-text"
+              active-class="active"
+              :to="{ name: 'auth.login.index' }">
             Login
           </router-link>
         </template>
@@ -118,5 +123,9 @@ const logout = async function () {
   justify-content: center;
   flex-direction: column;
   font-size: 40px;
+}
+
+.active {
+  text-decoration: underline;
 }
 </style>
