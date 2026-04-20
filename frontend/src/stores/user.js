@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth.js"
 export const useUserStore = defineStore('user', {
     state: () => ({
         users: [],
+        recentUsers: [],
         user: JSON.parse(localStorage.getItem('user'))
     }),
 
@@ -20,8 +21,24 @@ export const useUserStore = defineStore('user', {
                 const data = serverData.data
 
                 this.users = data.users
+
+                return data
             }
             catch (error) {
+                console.log(error.message)
+            }
+        },
+
+        async getRecentUsers() {
+            try {
+                const serverData = await api.get('users/recent')
+                const data = serverData.data
+
+                this.recentUsers = data.recentUsers
+
+                return data
+            }
+            catch(error) {
                 console.log(error.message)
             }
         },
@@ -35,6 +52,8 @@ export const useUserStore = defineStore('user', {
                 if (index !== -1) {
                     this.users[index] = updateUser
                 }
+
+                return updateUser
             }
             catch (error) {
                 console.log(error.message)

@@ -25,6 +25,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function getRecentUsers()
+    {
+        $recentUsers = User::where('created_at', '>=', now()->subDays(7))->get();
+
+        return response()->json([
+            'recentUsers' => $recentUsers
+        ]);
+    }
+
     public function updateRole(User $user, UpdateUserRoleRequest $request)
     {
         $data = $request->validated();

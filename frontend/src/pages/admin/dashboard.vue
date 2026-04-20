@@ -7,6 +7,12 @@ defineOptions({
   name: 'dashboard'
 })
 
+const getDate = new Date().toLocaleString('en-US', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long'
+})
+
 const userStore = useUserStore()
 const productStore = useProductStore()
 
@@ -27,6 +33,7 @@ const avgCalories = computed(() => {
 
 onMounted(async () => {
   await userStore.getUsers()
+  await userStore.getRecentUsers()
   await productStore.getProducts()
 })
 
@@ -38,9 +45,9 @@ onMounted(async () => {
     <div class="page-header">
       <div>
         <h1 class="page-title">Dashboard</h1>
-        <span class="page-subtitle">Welcome back, Admin 👋</span>
+        <span class="page-subtitle">Welcome back, {{ userStore.user.name }} 👋</span>
       </div>
-      <span class="page-date">Saturday, April 18</span>
+      <span class="page-date">{{ getDate }}</span>
     </div>
 
     <div class="stats-grid">
@@ -72,174 +79,19 @@ onMounted(async () => {
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Recent Users</h3>
-          <a href="#" class="card-link">View all →</a>
         </div>
         <div class="user-list">
-          <div class="user-item">
-            <div class="user-avatar">A</div>
+          <div v-for="recentUser in userStore.users" :key="recentUser.id"
+              class="user-item">
+            <div class="user-avatar">{{ recentUser.name.charAt(0).toUpperCase() }}</div>
             <div class="user-info">
-              <span class="user-name">Alex Johnson</span>
-              <span class="user-meta">alex@gmail.com</span>
+              <span class="user-name">{{ recentUser.name }}</span>
+              <span class="user-meta">{{ recentUser.email }}</span>
             </div>
-            <span class="user-badge badge-user">user</span>
-          </div>
-          <div class="user-item">
-            <div class="user-avatar">M</div>
-            <div class="user-info">
-              <span class="user-name">Maria Smith</span>
-              <span class="user-meta">maria@gmail.com</span>
-            </div>
-            <span class="user-badge badge-user">user</span>
-          </div>
-          <div class="user-item">
-            <div class="user-avatar">J</div>
-            <div class="user-info">
-              <span class="user-name">John Doe</span>
-              <span class="user-meta">john@gmail.com</span>
-            </div>
-            <span class="user-badge badge-admin">admin</span>
-          </div>
-          <div class="user-item">
-            <div class="user-avatar">S</div>
-            <div class="user-info">
-              <span class="user-name">Sara Lee</span>
-              <span class="user-meta">sara@gmail.com</span>
-            </div>
-            <span class="user-badge badge-user">user</span>
-          </div>
-          <div class="user-item">
-            <div class="user-avatar">D</div>
-            <div class="user-info">
-              <span class="user-name">David Park</span>
-              <span class="user-meta">david@gmail.com</span>
-            </div>
-            <span class="user-badge badge-user">user</span>
+            <span class="user-badge badge-user">{{ recentUser.role }}</span>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Top Products</h3>
-          <a href="#" class="card-link">View all →</a>
-        </div>
-        <div class="product-list">
-          <div class="product-item">
-            <span class="product-rank">1</span>
-            <span class="product-emoji">🍗</span>
-            <div class="product-info">
-              <span class="product-name">Chicken Breast</span>
-              <span class="product-meta">165 kcal / 100g</span>
-            </div>
-            <div class="product-bar-wrapper">
-              <div class="product-bar" style="width: 95%"></div>
-            </div>
-          </div>
-          <div class="product-item">
-            <span class="product-rank">2</span>
-            <span class="product-emoji">🥚</span>
-            <div class="product-info">
-              <span class="product-name">Eggs</span>
-              <span class="product-meta">155 kcal / 100g</span>
-            </div>
-            <div class="product-bar-wrapper">
-              <div class="product-bar" style="width: 80%"></div>
-            </div>
-          </div>
-          <div class="product-item">
-            <span class="product-rank">3</span>
-            <span class="product-emoji">🍚</span>
-            <div class="product-info">
-              <span class="product-name">White Rice</span>
-              <span class="product-meta">130 kcal / 100g</span>
-            </div>
-            <div class="product-bar-wrapper">
-              <div class="product-bar" style="width: 70%"></div>
-            </div>
-          </div>
-          <div class="product-item">
-            <span class="product-rank">4</span>
-            <span class="product-emoji">🥦</span>
-            <div class="product-info">
-              <span class="product-name">Broccoli</span>
-              <span class="product-meta">34 kcal / 100g</span>
-            </div>
-            <div class="product-bar-wrapper">
-              <div class="product-bar" style="width: 55%"></div>
-            </div>
-          </div>
-          <div class="product-item">
-            <span class="product-rank">5</span>
-            <span class="product-emoji">🐟</span>
-            <div class="product-info">
-              <span class="product-name">Salmon</span>
-              <span class="product-meta">208 kcal / 100g</span>
-            </div>
-            <div class="product-bar-wrapper">
-              <div class="product-bar" style="width: 45%"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-wide">
-        <div class="card-header">
-          <h3 class="card-title">Activity Levels Distribution</h3>
-        </div>
-        <div class="activity-list">
-          <div class="activity-item">
-            <div class="activity-info">
-              <span class="activity-icon">🛋️</span>
-              <span class="activity-name">Sedentary</span>
-            </div>
-            <div class="activity-bar-wrapper">
-              <div class="activity-bar" style="width: 20%"></div>
-            </div>
-            <span class="activity-count">256 users</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-info">
-              <span class="activity-icon">🚶</span>
-              <span class="activity-name">Light</span>
-            </div>
-            <div class="activity-bar-wrapper">
-              <div class="activity-bar" style="width: 35%"></div>
-            </div>
-            <span class="activity-count">450 users</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-info">
-              <span class="activity-icon">🏃</span>
-              <span class="activity-name">Moderate</span>
-            </div>
-            <div class="activity-bar-wrapper">
-              <div class="activity-bar" style="width: 60%"></div>
-            </div>
-            <span class="activity-count">771 users</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-info">
-              <span class="activity-icon">🏋️</span>
-              <span class="activity-name">Active</span>
-            </div>
-            <div class="activity-bar-wrapper">
-              <div class="activity-bar" style="width: 45%"></div>
-            </div>
-            <span class="activity-count">578 users</span>
-          </div>
-          <div class="activity-item">
-            <div class="activity-info">
-              <span class="activity-icon">🔥</span>
-              <span class="activity-name">Very Active</span>
-            </div>
-            <div class="activity-bar-wrapper">
-              <div class="activity-bar" style="width: 25%"></div>
-            </div>
-            <span class="activity-count">321 users</span>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -275,7 +127,6 @@ onMounted(async () => {
   font-weight: 500;
 }
 
-/* Stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -312,7 +163,6 @@ onMounted(async () => {
 
 .users-icon    { background: #f0faf3; }
 .products-icon { background: #fff5f0; }
-.meals-icon    { background: #eff6ff; }
 .calories-icon { background: #fefce8; }
 
 .stat-info {
@@ -336,15 +186,7 @@ onMounted(async () => {
   line-height: 1.2;
 }
 
-.stat-change {
-  font-size: 12px;
-  font-weight: 500;
-}
 
-.positive { color: #2e9e5b; }
-.negative { color: #e05c2a; }
-
-/* Content grid */
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -357,10 +199,6 @@ onMounted(async () => {
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 2px 16px rgba(34, 120, 60, 0.07);
-}
-
-.card-wide {
-  grid-column: 1 / -1;
 }
 
 .card-header {
@@ -377,18 +215,6 @@ onMounted(async () => {
   margin: 0;
 }
 
-.card-link {
-  font-size: 13px;
-  color: #2e9e5b;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.card-link:hover {
-  text-decoration: underline;
-}
-
-/* User list */
 .user-list {
   display: flex;
   flex-direction: column;
@@ -447,117 +273,4 @@ onMounted(async () => {
 }
 
 .badge-user  { background: #f0faf3; color: #2e9e5b; }
-.badge-admin { background: #fff5f0; color: #e05c2a; }
-
-/* Product list */
-.product-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.product-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.product-rank {
-  font-size: 12px;
-  font-weight: 700;
-  color: #a8cdb2;
-  width: 16px;
-  flex-shrink: 0;
-}
-
-.product-emoji {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.product-info {
-  display: flex;
-  flex-direction: column;
-  width: 140px;
-  flex-shrink: 0;
-}
-
-.product-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a4d2e;
-}
-
-.product-meta {
-  font-size: 11px;
-  color: #a8cdb2;
-}
-
-.product-bar-wrapper {
-  flex: 1;
-  height: 6px;
-  background: #e8f5ea;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.product-bar {
-  height: 100%;
-  background: #2e9e5b;
-  border-radius: 999px;
-}
-
-/* Activity list */
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.activity-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.activity-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 140px;
-  flex-shrink: 0;
-}
-
-.activity-icon {
-  font-size: 18px;
-}
-
-.activity-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a4d2e;
-}
-
-.activity-bar-wrapper {
-  flex: 1;
-  height: 8px;
-  background: #e8f5ea;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.activity-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #2e9e5b, #058505);
-  border-radius: 999px;
-}
-
-.activity-count {
-  font-size: 12px;
-  font-weight: 600;
-  color: #5a8a6a;
-  width: 70px;
-  text-align: right;
-  flex-shrink: 0;
-}
 </style>
