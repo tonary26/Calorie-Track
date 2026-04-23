@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Http\Requests\Product\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
@@ -15,7 +17,7 @@ class ProductController extends Controller
 
         $products = Product::query()->when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%");
-        })->orderBy('name')
+        })->orderBy('id')
           ->paginate(20);
 
         return response()->json([
@@ -38,6 +40,16 @@ class ProductController extends Controller
         return response()->json([
             'products' => $product
         ], 201);
+    }
+
+    public function update(Product $product, ProductUpdateRequest $request)
+    {
+        $data = $request->validated();
+        $product->update($data);
+
+        return response()->json([
+            'product' =>  $product
+        ]);
     }
 
     public function destroy(Product $product)

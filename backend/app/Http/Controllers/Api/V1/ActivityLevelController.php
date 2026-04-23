@@ -22,7 +22,7 @@ class ActivityLevelController extends Controller
         $activityLevel = ActivityLevel::create($data);
 
         return response()->json([
-            'activityLevel' => $activityLevel
+            'activity_level' => $activityLevel
         ], 201);
     }
 }

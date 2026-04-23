@@ -39,6 +39,44 @@ export const useProductStore = defineStore('product', {
             catch (error) {
                 console.log(error.message)
             }
+        },
+
+        async addProduct(formData) {
+            try {
+                const serverData = await api.post('products', formData)
+                const data = serverData.data
+
+                return data
+            }
+            catch(error) {
+                console.log(error.message)
+            }
+        },
+
+        async updateProduct(id, formData) {
+            try {
+                const serverData = await api.patch(`products/${id}`, formData )
+                const data = serverData.data
+
+                this.product = data.product
+            }
+            catch(error) {
+                console.log(error.message)
+            }
+        },
+
+        async deleteProduct(id) {
+            try {
+                api.delete(`products/${id}`)
+
+                const index = this.products.findIndex(p => p.id === id)
+                if (index !== -1) {
+                    this.products = this.products.filter(p => p.id !== id)
+                }
+            }
+            catch(error) {
+                console.log(error.message)
+            }
         }
     },
 })

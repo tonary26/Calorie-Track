@@ -34,25 +34,23 @@ defineOptions({
 
         <span class="nav-section-label">Catalog</span>
 
-        <a href="#" class="nav-item">
+        <router-link
+            :to="{ name: 'admin.products' }"
+            class="nav-item"
+            active-class="active">
           <span class="nav-icon">🥩</span>
           <span class="nav-label">Products</span>
-        </a>
-        <a href="#" class="nav-item">
-          <span class="nav-icon">🏷️</span>
-          <span class="nav-label">Categories</span>
-        </a>
-        <a href="#" class="nav-item">
+        </router-link>
+
+        <router-link
+            :to="{ name: 'admin.activity-levels' }"
+            class="nav-item"
+            active-class="active">
           <span class="nav-icon">⚡</span>
           <span class="nav-label">Activity Levels</span>
-        </a>
+        </router-link>
 
-        <span class="nav-section-label">System</span>
-
-        <a href="#" class="nav-item">
-          <span class="nav-icon">⚙️</span>
-          <span class="nav-label">Settings</span>
-        </a>
+        <span class="nav-section-label">Session</span>
         <router-link
            :to="{ name: 'dashboard.index' }"
            class="nav-item nav-logout">
@@ -61,15 +59,6 @@ defineOptions({
         </router-link>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="sidebar-user">
-          <div class="user-avatar">A</div>
-          <div class="user-info">
-            <span class="user-name">Admin</span>
-            <span class="user-role">Administrator</span>
-          </div>
-        </div>
-      </div>
     </aside>
 
     <main class="main-wrapper">
@@ -161,7 +150,7 @@ defineOptions({
 }
 
 .nav-logout {
-  margin-top: auto;
+  margin-top: 24px;
   color: #e05c2a;
 }
 
