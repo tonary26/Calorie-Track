@@ -1,12 +1,16 @@
 <script setup>
 import { useAuthStore } from "@/stores/auth.js"
-import { useRouter } from "vue-router"
+import { computed } from "vue"
 
 defineOptions({
   name: 'ClientLayout'
 })
 
 const store = useAuthStore()
+
+const isAdmin = computed(() => {
+  return store.user?.role === 'admin'
+})
 
 const logout = async function () {
   await store.logout()
@@ -49,7 +53,7 @@ const logout = async function () {
             Logout
           </a>
 
-          <router-link
+          <router-link v-if="isAdmin"
               class="nav-text"
               :to="{ name: 'admin.dashboard' }">
             Admin

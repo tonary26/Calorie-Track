@@ -71,6 +71,10 @@ class User extends Authenticatable
 
     public function getDailyCaloriesAttribute()
     {
+        if (!$this->activityLevel) {
+            return 0;
+        }
+
         $bmr = ($this->weight * 10) + (6.25 * $this->height) + (5 * $this->age);
         $bmr = ($this->sex === 'man') ? $bmr + 5 : $bmr - 161;
 
