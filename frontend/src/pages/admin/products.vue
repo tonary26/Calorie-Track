@@ -132,16 +132,6 @@ onMounted(async () => {
         </tbody>
       </table>
 
-      <div class="table-footer">
-        <span class="table-count">Showing 6 of 6 products</span>
-        <div class="pagination">
-          <button class="page-btn" disabled>←</button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn">2</button>
-          <button class="page-btn">3</button>
-          <button class="page-btn">→</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -354,17 +344,7 @@ onMounted(async () => {
 }
 
 .td-id { font-size: 12px; color: #a8cdb2; font-weight: 600; }
-.td-emoji { font-size: 22px; }
 .product-name { font-weight: 600; }
-
-.badge {
-  padding: 3px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.badge-category { background: #f0faf3; color: #2e9e5b; }
 
 .td-macro { font-weight: 600; font-size: 13px; }
 .td-calories { color: #e05c2a; }
@@ -390,36 +370,6 @@ onMounted(async () => {
 
 .action-btn.edit:hover { background: #eff6ff; border-color: #3a7fd4; }
 .action-btn.delete:hover { background: #fff5f0; border-color: #e05c2a; }
-
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-top: 1.5px solid #e8f5ea;
-}
-
-.table-count { font-size: 13px; color: #a8cdb2; }
-.pagination { display: flex; gap: 6px; }
-
-.page-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1.5px solid #d6eed9;
-  background: #ffffff;
-  font-size: 13px;
-  color: #5a8a6a;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.page-btn:hover:not(:disabled) { border-color: #2e9e5b; color: #2e9e5b; }
-.page-btn.active { background: #2e9e5b; border-color: #2e9e5b; color: #ffffff; }
-.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .modal-overlay {
   position: fixed;

@@ -49,21 +49,6 @@ onMounted(async () => {
           <span>🔍</span>
           <input type="text" v-model="search" placeholder="Search users..." class="search-input">
         </div>
-        <div class="table-filters">
-          <select class="filter-select">
-            <option value="">All roles</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-          </select>
-          <select class="filter-select">
-            <option value="">All activity</option>
-            <option value="sedentary">Sedentary</option>
-            <option value="light">Light</option>
-            <option value="moderate">Moderate</option>
-            <option value="active">Active</option>
-            <option value="very_active">Very Active</option>
-          </select>
-        </div>
       </div>
 
       <table class="table">
@@ -115,17 +100,6 @@ onMounted(async () => {
         </tr>
         </tbody>
       </table>
-
-      <div class="table-footer">
-        <span class="table-count">Showing 4 of 4 users</span>
-        <div class="pagination">
-          <button class="page-btn" disabled>←</button>
-          <button class="page-btn active">1</button>
-          <button class="page-btn">2</button>
-          <button class="page-btn">3</button>
-          <button class="page-btn">→</button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -194,23 +168,6 @@ onMounted(async () => {
 
 .search-input::placeholder {
   color: #a8cdb2;
-}
-
-.table-filters {
-  display: flex;
-  gap: 10px;
-}
-
-.filter-select {
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1.5px solid #d6eed9;
-  background: #f6fdf7;
-  font-size: 13px;
-  color: #5a8a6a;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
 }
 
 .table {
